@@ -2,8 +2,7 @@ package com.lovable.lovable_ai.controller;
 
 import com.lovable.lovable_ai.dto.member.InviteMemberRequest;
 import com.lovable.lovable_ai.dto.member.MemberResponse;
-import com.lovable.lovable_ai.dto.member.updateMemberRoleRequest;
-import com.lovable.lovable_ai.entity.ProjectMember;
+import com.lovable.lovable_ai.dto.member.UpdateMemberRoleRequest;
 import com.lovable.lovable_ai.service.ProjectMemberService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +23,7 @@ public class ProjectMemberController {
     ProjectMemberService projectMemberService;
 
     @GetMapping
-    public ResponseEntity<List<ProjectMember>> getProjectMembers(@PathVariable UUID projectId) {
+    public ResponseEntity<List<MemberResponse>> getProjectMembers(@PathVariable UUID projectId) {
         UUID userId = UUID.randomUUID();
         return ResponseEntity
                 .ok(projectMemberService
@@ -43,7 +42,7 @@ public class ProjectMemberController {
     @PatchMapping("/{memberId}")
     public ResponseEntity<MemberResponse> updateMemberRole(@PathVariable UUID projectId,
                                                             @PathVariable UUID memberId,
-                                                            @RequestBody updateMemberRoleRequest request) {
+                                                            @RequestBody UpdateMemberRoleRequest request) {
         UUID userId = UUID.randomUUID();
         return ResponseEntity
                 .ok(projectMemberService.updateMemberRole(projectId, request,  userId));
