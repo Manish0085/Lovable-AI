@@ -23,7 +23,7 @@ public class FileController {
 
     private final FileService fileService;
 
-    @GetMapping("/{projectId}")
+    @GetMapping
     public ResponseEntity<List<FileNode>> getFileTree(@PathVariable UUID projectId) {
         UUID userID = UUID.randomUUID();
         return ResponseEntity.ok(fileService.getFileTree(projectId, userID));
