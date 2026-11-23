@@ -1,9 +1,9 @@
 package com.lovable.lovable_ai.controller;
 
-import com.lovable.lovable_ai.dto.AuthResponse;
-import com.lovable.lovable_ai.dto.LoginRequest;
-import com.lovable.lovable_ai.dto.SignupRequest;
-import com.lovable.lovable_ai.dto.UserProfileResponse;
+import com.lovable.lovable_ai.dto.auth.AuthResponse;
+import com.lovable.lovable_ai.dto.auth.LoginRequest;
+import com.lovable.lovable_ai.dto.auth.SignupRequest;
+import com.lovable.lovable_ai.dto.auth.UserProfileResponse;
 import com.lovable.lovable_ai.service.AuthService;
 import com.lovable.lovable_ai.service.UserService;
 import lombok.RequiredArgsConstructor;

@@ -1,4 +1,4 @@
-package com.lovable.lovable_ai.dto;
+package com.lovable.lovable_ai.dto.auth;
 
 public record AuthResponse(
          String token,
