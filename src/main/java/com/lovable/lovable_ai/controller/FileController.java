@@ -4,7 +4,9 @@ import com.lovable.lovable_ai.dto.project.file.FileContentResponse;
 import com.lovable.lovable_ai.dto.project.file.FileNode;
 import com.lovable.lovable_ai.dto.project.file.FileTreeResponse;
 import com.lovable.lovable_ai.service.FileService;
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,9 +21,10 @@ import java.util.UUID;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/projects/{projectId}/files")
+@FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public class FileController {
 
-    private final FileService fileService;
+    FileService fileService;
 
     @GetMapping
     public ResponseEntity<List<FileNode>> getFileTree(@PathVariable UUID projectId) {

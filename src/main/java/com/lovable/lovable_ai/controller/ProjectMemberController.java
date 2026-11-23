@@ -5,7 +5,9 @@ import com.lovable.lovable_ai.dto.member.MemberResponse;
 import com.lovable.lovable_ai.dto.member.updateMemberRoleRequest;
 import com.lovable.lovable_ai.entity.ProjectMember;
 import com.lovable.lovable_ai.service.ProjectMemberService;
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,9 +18,10 @@ import java.util.UUID;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/projects/{projectId}/members")
+@FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public class ProjectMemberController {
 
-    private final ProjectMemberService projectMemberService;
+    ProjectMemberService projectMemberService;
 
     @GetMapping
     public ResponseEntity<List<ProjectMember>> getProjectMembers(@PathVariable UUID projectId) {

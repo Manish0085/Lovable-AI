@@ -6,7 +6,9 @@ import com.lovable.lovable_ai.dto.auth.SignupRequest;
 import com.lovable.lovable_ai.dto.auth.UserProfileResponse;
 import com.lovable.lovable_ai.service.AuthService;
 import com.lovable.lovable_ai.service.UserService;
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,10 +17,11 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
+@FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public class AuthController {
 
-    private final AuthService authService;
-    private final UserService userService;
+    AuthService authService;
+    UserService userService;
 
     @PostMapping("/signup")
     public ResponseEntity<AuthResponse> signup(@RequestBody SignupRequest request) {
