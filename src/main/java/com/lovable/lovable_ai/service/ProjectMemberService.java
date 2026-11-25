@@ -12,8 +12,8 @@ public interface ProjectMemberService {
 
     MemberResponse inviteMember(UUID projectId, InviteMemberRequest request, UUID userId);
 
-    MemberResponse updateMemberRole(UUID projectId, UpdateMemberRoleRequest request, UUID userId);
+    MemberResponse updateMemberRole(UUID projectId, UUID memberId, UpdateMemberRoleRequest request, UUID userId);
 
-    void deleteProjectMember(UUID projectId, UUID userId);
+    void removeProjectMember(UUID projectId, UUID userId);
 }
 

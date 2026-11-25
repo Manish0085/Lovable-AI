@@ -3,7 +3,7 @@ package com.lovable.lovable_ai.service.impl;
 import com.lovable.lovable_ai.dto.member.InviteMemberRequest;
 import com.lovable.lovable_ai.dto.member.MemberResponse;
 import com.lovable.lovable_ai.dto.member.UpdateMemberRoleRequest;
-import com.lovable.lovable_ai.dto.project.ProjectProjectSummaryResponse;
+import com.lovable.lovable_ai.dto.project.ProjectSummaryResponse;
 import com.lovable.lovable_ai.dto.project.ProjectRequest;
 import com.lovable.lovable_ai.dto.project.ProjectResponse;
 import com.lovable.lovable_ai.entity.Project;
@@ -49,7 +49,7 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public List<ProjectProjectSummaryResponse> getUserProjects(UUID userId) {
+    public List<ProjectSummaryResponse> getUserProjects(UUID userId) {
         return projectRepository.findAllAccessibleByUser(userId)
                 .stream()
                 .map(projectMapper::toProjectProjectSummaryResponse)

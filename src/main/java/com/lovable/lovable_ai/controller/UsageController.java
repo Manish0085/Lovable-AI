@@ -7,6 +7,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,6 +18,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @RequestMapping("/api/usage")
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
+@Validated
 public class UsageController {
 
     UsageService usageService;

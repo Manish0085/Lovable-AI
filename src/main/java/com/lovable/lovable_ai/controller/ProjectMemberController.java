@@ -4,6 +4,7 @@ import com.lovable.lovable_ai.dto.member.InviteMemberRequest;
 import com.lovable.lovable_ai.dto.member.MemberResponse;
 import com.lovable.lovable_ai.dto.member.UpdateMemberRoleRequest;
 import com.lovable.lovable_ai.service.ProjectMemberService;
+import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -32,7 +33,7 @@ public class ProjectMemberController {
     }
     @PostMapping
     public ResponseEntity<MemberResponse> inviteMember(@PathVariable UUID projectId,
-                                                       @RequestBody InviteMemberRequest request) {
+                                                       @RequestBody @Valid InviteMemberRequest request) {
         UUID userId = UUID.randomUUID();
         return ResponseEntity
                 .status(HttpStatus.CREATED)
@@ -42,17 +43,17 @@ public class ProjectMemberController {
     @PatchMapping("/{memberId}")
     public ResponseEntity<MemberResponse> updateMemberRole(@PathVariable UUID projectId,
                                                             @PathVariable UUID memberId,
-                                                            @RequestBody UpdateMemberRoleRequest request) {
+                                                            @RequestBody @Valid UpdateMemberRoleRequest request) {
         UUID userId = UUID.randomUUID();
         return ResponseEntity
-                .ok(projectMemberService.updateMemberRole(projectId, request,  userId));
+                .ok(projectMemberService.updateMemberRole(projectId, memberId, request,  userId));
     }
 
     @PatchMapping("/{memberId}")
     public ResponseEntity<Void> deleteMember(@PathVariable UUID projectId,
-                                                           @PathVariable UUID memberId) {
+                                             @PathVariable UUID memberId) {
         UUID userId = UUID.randomUUID();
-        projectMemberService.deleteProjectMember(projectId, userId);
+        projectMemberService.removeProjectMember(projectId, userId);
         return ResponseEntity
                 .noContent()
                 .build();

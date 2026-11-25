@@ -1,6 +1,6 @@
 package com.lovable.lovable_ai.service;
 
-import com.lovable.lovable_ai.dto.project.ProjectProjectSummaryResponse;
+import com.lovable.lovable_ai.dto.project.ProjectSummaryResponse;
 import com.lovable.lovable_ai.dto.project.ProjectRequest;
 import com.lovable.lovable_ai.dto.project.ProjectResponse;
 
@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.UUID;
 
 public interface ProjectService {
-    List<ProjectProjectSummaryResponse> getUserProjects(UUID userId);
+    List<ProjectSummaryResponse> getUserProjects(UUID userId);
 
     ProjectResponse getUserProjectById(UUID id, UUID userId);
 

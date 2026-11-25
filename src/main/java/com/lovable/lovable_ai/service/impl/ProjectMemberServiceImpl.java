@@ -16,17 +16,20 @@ import jakarta.transaction.Transactional;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 @Transactional
+@Slf4j
 public class ProjectMemberServiceImpl implements ProjectMemberService {
 
     ProjectMemberRepository projectMemberRepository;
@@ -54,7 +57,7 @@ public class ProjectMemberServiceImpl implements ProjectMemberService {
         Project project = getAccessibleProjectById(projectId, userId);
 
         if (project.getOwner().getId().equals(projectId)) {
-            throw new RuntimeException("Not Allowed")
+            throw new RuntimeException("Not Allowed");
         }
 
         User invitee = userRepository.findByEmail(request.email())
@@ -82,12 +85,37 @@ public class ProjectMemberServiceImpl implements ProjectMemberService {
     }
 
     @Override
-    public MemberResponse updateMemberRole(UUID projectId, UpdateMemberRoleRequest request, UUID userId) {
-        return null;
+    public MemberResponse updateMemberRole(UUID projectId, UUID memberId, UpdateMemberRoleRequest request, UUID userId) {
+        Project project = getAccessibleProjectById(projectId, userId);
+
+        if (project.getOwner().getId().equals(projectId)) {
+            throw new RuntimeException("Not Allowed");
+        }
+
+        ProjectMemberId projectMemberId = new ProjectMemberId(projectId, userId);
+        ProjectMember projectMember = projectMemberRepository.findById(projectMemberId)
+                .orElseThrow();
+
+        projectMember.setProjectRole(request.role());
+        projectMemberRepository.save(projectMember);
+
+        return projectMemberMapper.toProjectMemberResponseFromMember(projectMember);
     }
 
     @Override
-    public void deleteProjectMember(UUID projectId, UUID userId) {
+    public void removeProjectMember(UUID projectId, UUID userId) {
+        Project project = getAccessibleProjectById(projectId, userId);
+
+        if (!project.getOwner().getId().equals(userId))
+            throw new RuntimeException("Not Allowed");
+
+        ProjectMemberId projectMemberId = new ProjectMemberId(projectId, userId);
+        if (!projectMemberRepository.existsById(projectMemberId)) {
+            throw new RuntimeException("Member not found in project");
+        }
+
+        projectMemberRepository.deleteById(projectMemberId);
+
 
     }
 
