@@ -8,6 +8,7 @@ import com.lovable.lovable_ai.dto.project.ProjectRequest;
 import com.lovable.lovable_ai.dto.project.ProjectResponse;
 import com.lovable.lovable_ai.entity.Project;
 import com.lovable.lovable_ai.entity.User;
+import com.lovable.lovable_ai.exception.ResourceNotFoundException;
 import com.lovable.lovable_ai.mapper.ProjectMapper;
 import com.lovable.lovable_ai.repository.ProjectRepository;
 import com.lovable.lovable_ai.repository.UserRepository;
@@ -36,7 +37,7 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public ProjectResponse createProject(ProjectRequest request, UUID userId) {
         User user = userRepository.findById(userId)
-                .orElseThrow();
+                .orElseThrow(() -> new ResourceNotFoundException("USER_ID", userId.toString()));
 
         Project project = Project.builder()
                 .name(request.name())
@@ -88,6 +89,6 @@ public class ProjectServiceImpl implements ProjectService {
 
     private Project getAccessibleProjectById(UUID projectId, UUID userId) {
         return projectRepository.findAccessibleProjectById(projectId, userId)
-                .orElseThrow();
+                .orElseThrow(() -> new ResourceNotFoundException("PROJECT", projectId.toString()));
     }
 }
