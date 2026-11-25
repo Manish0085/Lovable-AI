@@ -21,15 +21,15 @@ public record SignupRequest(
         String name,
 
         @Schema(
-                description = "Email address for the new account. Must be unique",
+                description = "Email address or username for the new account. Must be unique",
                 example = "jane.doe@example.com",
                 requiredMode = Schema.RequiredMode.REQUIRED,
                 maxLength = 254
         )
-        @NotBlank(message = "Email is required")
-        @Email(message = "Email must be a valid email address")
-        @Size(max = 254, message = "Email must not exceed 254 characters")
-        String email,
+        @NotBlank(message = "Email or username is required")
+        @Email(message = "Email or username must be a valid email address")
+        @Size(max = 254, message = "Email or username must not exceed 254 characters")
+        String username,
 
         @Schema(
                 description = "Account password. Must be 8-128 characters and include an uppercase letter, a lowercase letter, a digit, and a special character",
@@ -51,6 +51,6 @@ public record SignupRequest(
 
     @Override
     public String toString() {
-        return "SignupRequest[name=" + name + ", email=" + email + ", password=****]";
+        return "SignupRequest[name=" + name + ", email=" + username  + ", password=****]";
     }
 }

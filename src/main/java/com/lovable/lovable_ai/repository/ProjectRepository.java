@@ -18,17 +18,14 @@ public interface ProjectRepository extends JpaRepository<Project, UUID>
     @Query("""
             SELECT p FROM Project p
             WHERE p.deleteAt IS NULL
-            AND p.owner.id = :userId
             ORDER BY p.updatedAt DESC
             """)
     List<Project> findAllAccessibleByUser(@Param("userId") UUID userId);
 
     @Query("""
             SELECT p FROM Project p
-            LEFT JOIN FETCH p.owner
             WHERE p.id = :projectId
                 AND p.deletedAt IS NULL
-                AND p.owner.id = :userId
             """)
     Optional<Project> findAccessibleProjectById(@Param("projectId") UUID projectId,
                                                 @Param("userId") UUID uuid);

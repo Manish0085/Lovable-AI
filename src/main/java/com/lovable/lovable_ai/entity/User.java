@@ -25,9 +25,9 @@ public class User {
     @GeneratedValue(strategy = GenerationType.UUID)
     UUID id;
 
-    String email;
+    String username;
 
-    String passwordHash;
+    String password;
 
     String name;
     String avatarUrl;

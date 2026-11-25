@@ -13,4 +13,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 @RequiredArgsConstructor
 public class BadRequestException extends RuntimeException{
+
+    String message;
 }

@@ -17,11 +17,11 @@ public record MemberResponse(
         UUID id,
 
         @Schema(
-                description = "Email address of the member",
+                description = "Email address or username of the member",
                 example = "jane.doe@example.com",
                 requiredMode = Schema.RequiredMode.REQUIRED
         )
-        String email,
+        String username,
 
         @Schema(
                 description = "Display name of the member",

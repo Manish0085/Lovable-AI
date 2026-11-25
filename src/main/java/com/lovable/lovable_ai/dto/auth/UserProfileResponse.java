@@ -15,11 +15,11 @@ public record UserProfileResponse(
         UUID id,
 
         @Schema(
-                description = "Email address of the user",
+                description = "Email address or username of the user",
                 example = "jane.doe@example.com",
                 requiredMode = Schema.RequiredMode.REQUIRED
         )
-        String email,
+        String username,
 
         @Schema(
                 description = "Display name of the user",

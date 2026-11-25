@@ -9,15 +9,15 @@ import jakarta.validation.constraints.Size;
 public record LoginRequest(
 
         @Schema(
-                description = "Email address of the account",
+                description = "Email address or username of the account",
                 example = "jane.doe@example.com",
                 requiredMode = Schema.RequiredMode.REQUIRED,
                 maxLength = 254
         )
-        @NotBlank(message = "Email is required")
-        @Email(message = "Email must be a valid email address")
-        @Size(max = 254, message = "Email must not exceed 254 characters")
-        String email,
+        @NotBlank(message = "Email or username is required")
+        @Email(message = "Email or username must be a valid")
+        @Size(max = 254, message = "Email or username must not exceed 254 characters")
+        String username,
 
         @Schema(
                 description = "Account password",
