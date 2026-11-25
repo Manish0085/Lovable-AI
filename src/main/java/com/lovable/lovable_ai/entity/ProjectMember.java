@@ -1,6 +1,7 @@
 package com.lovable.lovable_ai.entity;
 
 import com.lovable.lovable_ai.constants.ProjectRole;
+import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -12,15 +13,27 @@ import java.util.UUID;
 @Getter
 @AllArgsConstructor
 @RequiredArgsConstructor
+@Builder
+@Entity
+@Table(name = "project_members")
 public class ProjectMember {
 
-    ProjectMemberId Id;
+    @EmbeddedId
+    ProjectMemberId id;
 
+    @ManyToOne
+    @MapsId("projectId")
     Project project;
+
+    @ManyToOne
+    @MapsId("userId")
     User user;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     ProjectRole projectRole;
     String invitedBy;
+    Instant invitedAt;
     Instant acceptedAt;
 
 }

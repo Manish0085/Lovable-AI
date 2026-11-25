@@ -19,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
@@ -58,24 +59,35 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public ProjectResponse getUserProjectById(UUID id, UUID userId) {
-        User user = userRepository.findById(userId)
-                .orElseThrow();
+        Project project = getAccessibleProjectById(id, userId);
 
-        Project project = projectRepository.findByUserId(userId);
         return projectMapper.toProjectResponse(project);
     }
 
 
     @Override
     public ProjectResponse updateProject(UUID id, ProjectRequest request, UUID userId) {
-
+        Project project = getAccessibleProjectById(id, userId);
+        if (!project.getOwner().getId().equals(userId)) {
+            throw new RuntimeException("You are not allowed to update");
+        }
+        project.setName(request.name());
+        project = projectRepository.save(project);
+        return projectMapper.toProjectResponse(project);
     }
 
     @Override
     public void softDelete(UUID id, UUID userId) {
-        User user = userRepository.findById(userId)
+        Project project = getAccessibleProjectById(id, userId);
+        if (!project.getOwner().getId().equals(userId)) {
+            throw new RuntimeException("You are not allowed to deleted");
+        }
+        project.setDeletedAt(Instant.now());
+        projectRepository.save(project);
+    }
+
+    private Project getAccessibleProjectById(UUID projectId, UUID userId) {
+        return projectRepository.findAccessibleProjectById(projectId, userId)
                 .orElseThrow();
-
-
     }
 }
