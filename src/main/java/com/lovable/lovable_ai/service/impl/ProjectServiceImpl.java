@@ -16,6 +16,7 @@ import com.lovable.lovable_ai.mapper.ProjectMapper;
 import com.lovable.lovable_ai.repository.ProjectMemberRepository;
 import com.lovable.lovable_ai.repository.ProjectRepository;
 import com.lovable.lovable_ai.repository.UserRepository;
+import com.lovable.lovable_ai.security.AuthUtil;
 import com.lovable.lovable_ai.service.ProjectMemberService;
 import com.lovable.lovable_ai.service.ProjectService;
 import jakarta.transaction.Transactional;
@@ -38,12 +39,15 @@ public class ProjectServiceImpl implements ProjectService {
     UserRepository userRepository;
     ProjectMapper projectMapper;
     ProjectMemberRepository projectMemberRepository;
+    AuthUtil authUtil;
 
     @Override
-    public ProjectResponse createProject(ProjectRequest request, UUID userId) {
-        User owner = userRepository.findById(userId)
-                .orElseThrow(() -> new ResourceNotFoundException("USER_ID", userId.toString()));
+    public ProjectResponse createProject(ProjectRequest request) {
+        UUID userId = authUtil.getCurrentUserId();
+//        User owner = userRepository.findById(userId)
+//                .orElseThrow(() -> new ResourceNotFoundException("USER_ID", userId.toString()));
 
+        User owner = userRepository.getReferenceById(userId);
         Project project = Project.builder()
                 .name(request.name())
                 .isPublic(false)
@@ -69,7 +73,8 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public List<ProjectSummaryResponse> getUserProjects(UUID userId) {
+    public List<ProjectSummaryResponse> getUserProjects() {
+        UUID userId = authUtil.getCurrentUserId();
         return projectRepository.findAllAccessibleByUser(userId)
                 .stream()
                 .map(projectMapper::toProjectProjectSummaryResponse)
@@ -78,7 +83,9 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public ProjectResponse getUserProjectById(UUID id, UUID userId) {
+    public ProjectResponse getUserProjectById(UUID id) {
+
+        UUID userId = authUtil.getCurrentUserId();
         Project project = getAccessibleProjectById(id, userId);
 
         return projectMapper.toProjectResponse(project);
@@ -86,7 +93,8 @@ public class ProjectServiceImpl implements ProjectService {
 
 
     @Override
-    public ProjectResponse updateProject(UUID id, ProjectRequest request, UUID userId) {
+    public ProjectResponse updateProject(UUID id, ProjectRequest request) {
+        UUID userId = authUtil.getCurrentUserId();
         Project project = getAccessibleProjectById(id, userId);
 
         project.setName(request.name());
@@ -95,7 +103,8 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public void softDelete(UUID id, UUID userId) {
+    public void softDelete(UUID id) {
+        UUID userId = authUtil.getCurrentUserId();
         Project project = getAccessibleProjectById(id, userId);
 
         project.setDeletedAt(Instant.now());

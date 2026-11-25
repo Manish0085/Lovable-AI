@@ -8,12 +8,12 @@ import java.util.List;
 import java.util.UUID;
 
 public interface ProjectMemberService {
-    List<MemberResponse> getProjectMembers(UUID projectId, UUID userId);
+    List<MemberResponse> getProjectMembers(UUID projectId);
 
-    MemberResponse inviteMember(UUID projectId, InviteMemberRequest request, UUID userId);
+    MemberResponse inviteMember(UUID projectId, InviteMemberRequest request);
 
-    MemberResponse updateMemberRole(UUID projectId, UUID memberId, UpdateMemberRoleRequest request, UUID userId);
+    MemberResponse updateMemberRole(UUID projectId, UUID memberId, UpdateMemberRoleRequest request);
 
-    void removeProjectMember(UUID projectId, UUID userId);
+    void removeProjectMember(UUID projectId);
 }
 

@@ -25,35 +25,32 @@ public class ProjectMemberController {
 
     @GetMapping
     public ResponseEntity<List<MemberResponse>> getProjectMembers(@PathVariable UUID projectId) {
-        UUID userId = UUID.randomUUID();
         return ResponseEntity
                 .ok(projectMemberService
-                        .getProjectMembers(projectId, userId)
+                        .getProjectMembers(projectId)
                 );
     }
     @PostMapping
     public ResponseEntity<MemberResponse> inviteMember(@PathVariable UUID projectId,
                                                        @RequestBody @Valid InviteMemberRequest request) {
-        UUID userId = UUID.randomUUID();
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(projectMemberService.inviteMember(projectId, request,  userId));
+                .body(projectMemberService.inviteMember(projectId, request));
     }
 
     @PatchMapping("/{memberId}")
     public ResponseEntity<MemberResponse> updateMemberRole(@PathVariable UUID projectId,
                                                             @PathVariable UUID memberId,
                                                             @RequestBody @Valid UpdateMemberRoleRequest request) {
-        UUID userId = UUID.randomUUID();
+
         return ResponseEntity
-                .ok(projectMemberService.updateMemberRole(projectId, memberId, request,  userId));
+                .ok(projectMemberService.updateMemberRole(projectId, memberId, request));
     }
 
     @PatchMapping("/{memberId}")
     public ResponseEntity<Void> deleteMember(@PathVariable UUID projectId,
                                              @PathVariable UUID memberId) {
-        UUID userId = UUID.randomUUID();
-        projectMemberService.removeProjectMember(projectId, userId);
+        projectMemberService.removeProjectMember(projectId);
         return ResponseEntity
                 .noContent()
                 .build();

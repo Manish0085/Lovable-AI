@@ -27,32 +27,29 @@ public class ProjectController {
 
     @GetMapping
     public ResponseEntity<List<ProjectSummaryResponse>> getMyProjects() {
-        UUID userId = UUID.randomUUID();
-        return ResponseEntity.ok(projectService.getUserProjects(userId));
+
+        return ResponseEntity.ok(projectService.getUserProjects());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ProjectResponse> getProjectById(@PathVariable UUID id) {
-        UUID userId = UUID.randomUUID();
-        return ResponseEntity.ok(projectService.getUserProjectById(id, userId));
+
+        return ResponseEntity.ok(projectService.getUserProjectById(id));
     }
 
     @PostMapping
     public ResponseEntity<ProjectResponse> getProjectById(@RequestBody @Valid ProjectRequest request) {
-        UUID userId = UUID.randomUUID();
-        return ResponseEntity.status(HttpStatus.CREATED).body(projectService.createProject(request, userId));
+        return ResponseEntity.status(HttpStatus.CREATED).body(projectService.createProject(request));
     }
 
     @PatchMapping("/{id}")
     public ResponseEntity<ProjectResponse> updateProject(@PathVariable UUID id, @RequestBody @Valid ProjectRequest request) {
-        UUID userId = UUID.randomUUID();
-        return ResponseEntity.status(HttpStatus.CREATED).body(projectService.updateProject(id, request, userId));
+        return ResponseEntity.status(HttpStatus.CREATED).body(projectService.updateProject(id, request));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteProject(@PathVariable UUID id) {
-        UUID userId = UUID.randomUUID();
-        projectService.softDelete(id, userId);
+        projectService.softDelete(id);
         return ResponseEntity.noContent().build();
     }
 }
